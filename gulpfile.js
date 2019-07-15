@@ -8,11 +8,11 @@ var gulp          = require('gulp'),
 	autoprefixer  = require('gulp-autoprefixer'),
 	svgSprite     = require('gulp-svg-sprite'),
 	notify        = require('gulp-notify');
-	
+
 
 gulp.task('browser-sync', function(){
 	browserSync({
-		proxy: 'webee_quiz/',
+		proxy: 'quiz-constructor/',
 		notify: false
 	});
 });
@@ -24,7 +24,7 @@ gulp.task('open-style', function(){
 	.pipe(rename({ suffix: '.min', prefix : '' }))
 	.pipe(autoprefixer(['last 15 versions']))
 	.pipe(cleancss( {level: { 1: { specialComments: 0 } } }))
-	.pipe(gulp.dest('app/static/css/open'))
+	.pipe(gulp.dest('src/static/css/open'))
 	.pipe(browserSync.reload({ stream: true }))
 });
 
@@ -33,7 +33,7 @@ gulp.task('open-script', function(){
 	.pipe(concat('open.js'))
 	//.pipe(uglify())
 	.pipe(rename({ suffix: '.min', prefix : '' }))
-	.pipe(gulp.dest('app/static/js/open'))
+	.pipe(gulp.dest('src/static/js/open'))
 	.pipe(browserSync.reload({ stream: true }))
 });
 
@@ -44,7 +44,7 @@ gulp.task('admin-style', function(){
 	.pipe(rename({ suffix: '.min', prefix : '' }))
 	.pipe(autoprefixer(['last 15 versions']))
 	.pipe(cleancss( {level: { 1: { specialComments: 0 } } }))
-	.pipe(gulp.dest('app/static/css/admin'))
+	.pipe(gulp.dest('src/static/css/admin'))
 	.pipe(browserSync.reload({ stream: true }))
 });
 
@@ -53,10 +53,18 @@ gulp.task('admin-script', function(){
 	.pipe(concat('admin.js'))
 	.pipe(uglify())
 	.pipe(rename({ suffix: '.min', prefix : '' }))
-	.pipe(gulp.dest('app/static/js/admin'))
+	.pipe(gulp.dest('src/static/js/admin'))
 	.pipe(browserSync.reload({ stream: true }))
 });
 
+gulp.task('global-script', function(){
+	return gulp.src('source_static/js/global/*.js')
+	.pipe(concat('global.js'))
+	//.pipe(uglify())
+	.pipe(rename({ suffix: '.min', prefix : '' }))
+	.pipe(gulp.dest('src/static/js/'))
+	.pipe(browserSync.reload({ stream: true }))
+});
 
 gulp.task('watch', function(){
 	gulp.watch('source_static/sass/open/*.sass', gulp.parallel('open-style'));
@@ -64,6 +72,8 @@ gulp.task('watch', function(){
 
 	gulp.watch('source_static/sass/admin/*.sass', gulp.parallel('admin-style'));
 	gulp.watch('source_static/js/admin/*.js', gulp.parallel('admin-script'));
+
+	gulp.watch('source_static/js/global/*.js', gulp.parallel('global-script'));
 });
 
-gulp.task('default', gulp.parallel('watch', 'browser-sync', 'open-style', 'open-script', 'admin-style', 'admin-script'));
+gulp.task('default', gulp.parallel('watch', 'browser-sync', 'open-style', 'open-script', 'admin-style', 'admin-script', 'global-script'));

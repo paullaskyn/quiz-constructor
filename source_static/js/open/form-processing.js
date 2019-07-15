@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	//------------------------------------------------
-	// Functions for work with forms and 
+	// Functions for work with forms and
 	// doing ajax requests
 	//================================================
 
@@ -40,7 +40,6 @@ $(document).ready(function(){
 		error = '';
 		$('.alert-danger').fadeOut();
 	}
-
 
 	function ajaxRequest(url_arg, method_arg, data_arg, success_func){
 		$.ajax({
@@ -82,7 +81,6 @@ $(document).ready(function(){
  		return false;
 	});
 
-
 	$('#signin').submit(function(){
 		errorHide();
 
@@ -92,8 +90,12 @@ $(document).ready(function(){
 		validPassword(password);
 		validEmail(email);
 
+		var data_string = 'operation=signin&email=' + email + '&password=' + password;
+
 		if (error) errorShow(error);
- 		else ajaxRequest('/', 'POST', $(this).serialize());
+ 		else ajaxRequest('/', 'POST', data_string, function(){
+			window.location.replace("profile");
+		});
 
  		return false;
 	});
@@ -106,16 +108,17 @@ $(document).ready(function(){
 
 		validEmail(email);
 
+		var data_string = 'operation=recover&email=' + email;
+
 		if (error) errorShow(error);
- 		else ajaxRequest('/', 'POST', $(this).serialize(), function(){
+ 		else ajaxRequest('/', 'POST', data_string, function(){
  			swal({
 				title: 'Success',
 				text: 'Check your email!',
 				icon: "success",
 			})
 			.then((value) => {
-				$('.form-blocks #recover').fadeOut(0);
-				$('.form-blocks #newpassword').fadeIn();
+				window.location.replace('/');
 			});
  		});
 
@@ -131,7 +134,7 @@ $(document).ready(function(){
 		passwordComparsion(pass1, pass2);
 
 		if (error) errorShow(error);
- 		else ajaxRequest('/', 'POST', $(this).serialize(), function(){
+ 		else ajaxRequest('/', 'POST', data_string, function(){
  			swal({
 				title: 'Success',
 				text: 'Password successfully changed!',

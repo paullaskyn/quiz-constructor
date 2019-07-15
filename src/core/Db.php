@@ -8,14 +8,13 @@
 	#	and working with db
 	#========================================
 
-	class Model
+	class Db
 	{
 		public $db;
 
 		public function __construct()
 		{
 			try {
-
 				$config_db_path = '../config/db_config.php';
 
 				if (!file_exists($config_db_path))
@@ -40,7 +39,18 @@
 			}
 		}
 
-		public function query(string $query, array $params = [])
+		/**
+		 * Method sends queries to the database
+		 *
+		 * @method query
+		 *
+		 * @param  string $query  [line with sql query]
+		 * @param  array  $params [parameters that need to be inserted into the string]
+		 *
+		 * @return [type]         [return type depends on input string $query]
+		 */
+
+		final public function query(string $query, array $params = [])
 		{
 			try {
 				$stmt = $this->db->prepare($query);

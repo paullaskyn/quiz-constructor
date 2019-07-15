@@ -6,7 +6,7 @@
 		creates an object of class View(rendering of pages) and storing parameters of route
 	*/
 
-	class Controller 
+	class Controller
 	{
 		public $parameters;
 		public $view;
@@ -14,6 +14,12 @@
 
 		public function __construct(array $params)
 		{
+			if (isset($_POST['logout'])){
+				unset($_SESSION['user']);
+				die(json_encode('User logout'));
+			}
+
+
 			$this->loadModel($params['template']);
 			$this->parameters = $params;
 			$this->view = new View($params);

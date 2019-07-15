@@ -6,14 +6,17 @@
 
 		'' => [
 			'template' => 'open',
-			'page' => 'mainpage',
-			'page_title' => 'Главная страница'
+			'page' => 'mainpage'
 		],
 
 		'howtouse' => [
 			'template' => 'open',
-			'page' => 'howtouse',
-			'page_title' => 'Как подключить квиз к сайту'
+			'page' => 'howtouse'
+		],
+
+		'profile' => [
+			'template' => 'admin',
+			'page' => 'profile'
 		]
 
 	];

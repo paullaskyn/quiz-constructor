@@ -1,3 +1,5 @@
 node_modules/
 
 config/db_config.php
+
+package-lock.json
