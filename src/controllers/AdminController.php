@@ -7,20 +7,17 @@
 	{
 		# Array with data that will be sent to method
 		# render of class View
-		private $data = [];
+		protected $data = ['controller' => 'Admin'];
 
-		public function contentMethod(string $method_name)
+
+		/**
+		 * method of page, that generate data for rendering this page
+		 *
+		 * @method profile
+		 */
+
+		protected function profile() : void
 		{
-			$this->$method_name();
-			$this->view->render($this->data);
+			$this->data = \array_merge($this->data,  ['page' => 'profile']);
 		}
-
-		private function profile()
-		{
-			$this->data = [
-				'name' => 'valya',
-				'birthday' => '14.02.2000'
-			];
-		}
-
 	}

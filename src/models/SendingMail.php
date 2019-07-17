@@ -10,6 +10,16 @@
 
 	class SendingMail
 	{
+		
+		/**
+		 * Method using PHPMailer to send email
+		 *
+		 * @method SendMail
+		 *
+		 * @param  string   $recipient     [description]
+		 * @param  string   $letter_header [description]
+		 * @param  string   $letter_body   [description]
+		 */
 
 		public static function SendMail(string $recipient, string $letter_header, string $letter_body)
 		{

@@ -5,7 +5,6 @@
 	class AdminModel
 	{
 
-
 		public function __construct()
 		{
 

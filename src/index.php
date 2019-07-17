@@ -57,7 +57,6 @@
 			if (!class_exists($path_to_controller))
 				throw new Exception('Layout controller class not found!');
 			$controller = new $path_to_controller($parameters);
-			$controller->contentMethod($parameters['page']);
 		} catch (Exception $e) {
 
 			die($e->getMessage());

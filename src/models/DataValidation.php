@@ -8,8 +8,6 @@
 	#	from profile page
 	#================================================
 
-	#	NOT FINISHED YET
-
 	class DataValidation
 	{
 
@@ -18,21 +16,20 @@
 		const PASSWORD_ERROR = "Minimum password length 8 characters, maximum - 64!\n";
 		const PASS_COMP_ERROR = "Passwords don't coincide!\n";
 
-		public $error;
 
-		public function __construct(array $data)
+		public static function startValidate()
 		{
-			foreach ($data as $key => $value){
+			foreach ($_POST as $key => $value){
 				if ($key == 'username')
-					$this->usernameValidation($value);
+					self::usernameValidation($value);
 				elseif ($key == 'email')
-					$this->emailValidation($value);
+					self::emailValidation($value);
 				elseif ($key == 'password' || $key == 'password_repeat')
-					$this->passwordValidation($value);
+					self::passwordValidation($value);
 			}
 		}
 
-		private function usernameValidation(string $username)
+		private static function usernameValidation(string $username)
 		{
 			if( preg_match('/^[a-zA-Zа-яА-Я]+$/ui', $username) == 0 ||
 				mb_strlen($username) > 32 ||
@@ -40,13 +37,13 @@
 				exit(json_encode(['error' => self::USERNAME_ERROR]));
 		}
 
-		private function emailValidation(string $email)
+		private static function emailValidation(string $email)
 		{
 			if ( preg_match('/[A-z_\-0-9]+@[A-z_\-0-9]+\.[A-z_\-0-9]+/', $email) == 0)
 				exit(json_encode(['error' => self::EMAIL_ERROR]));
 		}
 
-		private function passwordValidation(string $password){
+		private static function passwordValidation(string $password){
 			if( mb_strlen($password) > 64 || mb_strlen($password) < 8 )
 				exit(json_encode(['error' => self::PASSWORD_ERROR]));
 		}

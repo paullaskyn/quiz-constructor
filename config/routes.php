@@ -17,6 +17,11 @@
 		'profile' => [
 			'template' => 'admin',
 			'page' => 'profile'
+		],
+
+		'quizzes' => [
+			'template' => 'admin',
+			'page' => 'quizzes'
 		]
 
 	];

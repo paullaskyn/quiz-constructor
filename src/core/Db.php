@@ -56,8 +56,8 @@
 				$stmt = $this->db->prepare($query);
 				$stmt->execute($params);
 
-				$rawStatement = explode(' ', preg_replace("/\s+|\t+|\n+/", " ", $query));
-				$statement = strtolower($rawStatement[0]);
+				$rawStatement = \explode(' ', \preg_replace("/\s+|\t+|\n+/", " ", $query));
+				$statement = \strtolower($rawStatement[0]);
 
 				if ($statement === 'select' || $statement === 'show') {
 					return $stmt->fetchAll();
@@ -66,9 +66,8 @@
 				} else {
 					return null;
 				}
-
 			} catch (\PDOException $e) {
-				die("Database request failed: {$e->getMessage()}");
+				die(\json_encode(['error' => "Database request failed: {$e->getMessage()}"]));
 			}
 		}
 

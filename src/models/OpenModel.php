@@ -10,18 +10,23 @@
 
 	class OpenModel
 	{
-		private $validation;
-		private $account;
+
+
+		/**
+		 * If the user performed the operation(signup, signin, recover, newpassword),
+		 * we start data checking and running operation method from class Account
+		 *
+		 * @method __construct
+		 */
 
 		public function __construct()
 		{
-			
 			if (isset($_POST['operation'])){
 
-				$this->validation = new DataValidation($_POST);
+				DataValidation::startValidate();
 
-				$this->account = new Account($_POST['operation'] . 'Operation');
-				if (!\method_exists($this->account->$_POST['operation'] . 'Operation'))
+				$account = new Account($_POST['operation'] . 'Operation');
+				if (!\method_exists($account->$_POST['operation'] . 'Operation'))
 					die(\json_encode(['error' => 'Operation failed!']));
 
 			}
