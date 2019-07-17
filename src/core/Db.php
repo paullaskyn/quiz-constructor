@@ -30,7 +30,7 @@
 					PDO::ATTR_EMULATE_PREPARES   => false
 				];
 
-				$this->db = new PDO($dsn, $db_config['user'], $db_config['password']);
+				$this->db = new PDO($dsn, $db_config['user'], $db_config['password'], $opt);
 
 			} catch (\PDOException $e) {
 				# Later I will make a beautiful error page and show errors there
@@ -60,7 +60,7 @@
 				$statement = strtolower($rawStatement[0]);
 
 				if ($statement === 'select' || $statement === 'show') {
-					return $stmt->fetchAll(PDO::FETCH_ASSOC);
+					return $stmt->fetchAll();
 				} elseif ($statement === 'insert' || $statement === 'update' || $statement === 'delete') {
 					return $stmt->rowCount();
 				} else {

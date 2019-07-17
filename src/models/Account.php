@@ -1,4 +1,5 @@
 <?php
+
 	namespace models;
 
 	use core\Db;
@@ -27,18 +28,10 @@
 			$this->$method_name();
 		}
 
-		/**
-		 * @method userSignUp
-		 *
-		 * @param  string     $this->username [description]
-		 * @param  string     $this->email    [description]
-		 * @param  string     $password [description]
-		 */
 
-		public function userSignUp() : void
+		public function signupOperation() : void
 		{
-			$add_user = 'INSERT INTO users(username, email, password, reg_date)
-					VALUES(:username, :email, :password, :reg_date)';
+			$add_user = 'INSERT INTO users(username, email, password, reg_date) VALUES(:username, :email, :password, :reg_date)';
 
 			$var_values = [
 				'username' => $this->username,
@@ -59,7 +52,7 @@
 		}
 
 
-		public function userSignIn() : void
+		public function signinOperation() : void
 		{
 			if ($this->checkEmail($this->email) != false)
 				die(json_encode(['error' => 'Email not found!']));
@@ -72,11 +65,54 @@
 			die(json_encode('User logged in'));
 		}
 
-		public function recoverMailSend()
+
+		public function recoverOperation() : void
 		{
-			/*if ($this->checkEmail($this->email) != false)
-				die(json_encode(['error' => 'Email not found!']));*/
-			die('mail sent');
+			if ($this->checkEmail($this->email) != false)
+				die(json_encode(['error' => 'Email not found!']));
+
+			$hash = \password_hash($this->email, PASSWORD_DEFAULT);
+			$user_id = $this->query('SELECT id FROM users WHERE email = ?', [$this->email])[0]['id'];
+
+			$restore_query = 'INSERT INTO restore(user_id, hash, datetime_restore) VALUES(:user_id, :hash, :datetime_restore)';
+
+			$restore_arr = [
+				'user_id' => $user_id,
+				'hash' => $hash,
+				'datetime_restore' => date("Y-m-d H:i:s")
+			];
+
+			$query = $this->query($restore_query, $restore_arr);
+
+			if ($query == false)
+				die(\json_encode(['error' => 'Database write error!']));
+
+			$message  = "Use the following link to reset your password: <br>";
+			$message .= "http://quiz-constructor/?recovery=$hash <br>";
+			$message .= "If you don’t use this link within 3 hours, it will expire. <br>";
+
+			SendingMail::SendMail($this->email, 'Password recovery', $message);
+
+			die(json_encode('Mail sent'));
+		}
+
+
+		public function newpasswordOperation() : void
+		{
+			if ($this->password !== $this->password_repeat)
+				die(\json_encode(['error' => 'Passwords do not match!']));
+
+			$user_id = $this->query('SELECT user_id FROM restore WHERE hash = ? ', [$_POST['restore_hash']]);
+			if ($user_id == false)
+				die(\json_encode(['error' => 'Wrong link!']));
+
+			$new_password = crypt($this->password_repeat, password_hash($this->password_repeat, PASSWORD_DEFAULT));
+
+			$this->query('UPDATE users SET password = ? WHERE id = ? ', [$new_password, $user_id[0]['user_id']]);
+			
+			$this->query('DELETE FROM restore WHERE user_id = ?', [$user_id[0]['user_id']]);
+
+			die(\json_encode('Password successfully changed'));
 		}
 
 		#	checking email for existence
@@ -98,11 +134,5 @@
 				'username' => $query['username'],
 				'email' => $this->email
 			];
-		}
-
-
-		public function recoverPasswordNew()
-		{
-
 		}
 	}

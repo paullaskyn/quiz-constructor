@@ -1,4 +1,5 @@
 <?php
+
 	namespace models;
 
 	#----------------------------------
@@ -14,27 +15,15 @@
 
 		public function __construct()
 		{
+			
 			if (isset($_POST['operation'])){
 
 				$this->validation = new DataValidation($_POST);
 
-				switch ($_POST['operation']){
-					case 'signup': $this->account = new Account('userSignUp');
-					break;
-					case 'signin': $this->account = new Account('userSignIn');
-					break;
-					case 'recover': $this->account = new Account('recoverMailSend');
-					break;
-					case 'newpassword': $this->newpasswordOperation();
-					break;
-					default: exit(json_encode(['error' => 'Operation failed!']));
-					break;
-				}
+				$this->account = new Account($_POST['operation'] . 'Operation');
+				if (!\method_exists($this->account->$_POST['operation'] . 'Operation'))
+					die(\json_encode(['error' => 'Operation failed!']));
+
 			}
-		}
-
-		private function newpasswordOperation()
-		{
-
 		}
 	}

@@ -2,4 +2,6 @@ node_modules/
 
 config/db_config.php
 
+config/mail_config.php
+
 package-lock.json

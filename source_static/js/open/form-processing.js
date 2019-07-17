@@ -133,6 +133,8 @@ $(document).ready(function(){
 
 		passwordComparsion(pass1, pass2);
 
+		var data_string = 'operation=newpassword&password=' + pass1 + '&password_repeat=' + pass2 + '&restore_hash=' + window.location.search.split('=')[1];
+
 		if (error) errorShow(error);
  		else ajaxRequest('/', 'POST', data_string, function(){
  			swal({
@@ -150,3 +152,4 @@ $(document).ready(function(){
 	});
 
 });
+console.log(window.location.search.split('=')[1]);

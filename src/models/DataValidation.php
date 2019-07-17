@@ -1,13 +1,14 @@
 <?php
+
 	namespace models;
 
 	#------------------------------------------------
-	#	Class for data validation coming from 
-	#	forms sign up, sign in, recover and 
+	#	Class for data validation coming from
+	#	forms sign up, sign in, recover and
 	#	from profile page
 	#================================================
 
-	#	NOT FINISHED YET 
+	#	NOT FINISHED YET
 
 	class DataValidation
 	{
@@ -33,8 +34,8 @@
 
 		private function usernameValidation(string $username)
 		{
-			if( preg_match('/^[a-zA-Zа-яА-Я]+$/ui', $username) == 0 || 
-				mb_strlen($username) > 32 || 
+			if( preg_match('/^[a-zA-Zа-яА-Я]+$/ui', $username) == 0 ||
+				mb_strlen($username) > 32 ||
 				mb_strlen($username) < 2)
 				exit(json_encode(['error' => self::USERNAME_ERROR]));
 		}
@@ -49,10 +50,4 @@
 			if( mb_strlen($password) > 64 || mb_strlen($password) < 8 )
 				exit(json_encode(['error' => self::PASSWORD_ERROR]));
 		}
-
-		public static function passwordComparison(){
-			
-		}
-
 	}
-	

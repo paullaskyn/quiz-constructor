@@ -10,9 +10,9 @@
 		private $data = [];
 
 		public function contentMethod(string $method_name)
-		{ 
+		{
 			$this->$method_name();
-			$this->view->render($this->data);
+			$this->view->render($this->data);	
 		}
 
 		private function howtouse()
