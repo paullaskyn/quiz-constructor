@@ -23,12 +23,9 @@
 		{
 			if (isset($_POST['operation'])){
 
-				DataValidation::startValidate();
+				userdata\DataValidation::startValidate();
 
-				$account = new Account($_POST['operation'] . 'Operation');
-				if (!\method_exists($account->$_POST['operation'] . 'Operation'))
-					die(\json_encode(['error' => 'Operation failed!']));
-
+				$account = new userdata\Account($_POST['operation'] . 'Operation');
 			}
 		}
 	}
