@@ -12,7 +12,7 @@
 					<input type="email" class="form-control" id="inputEmail" name="pd_email" placeholder="Email" value="<?php #echo $user_email?>" autocomplete="off">
 				</div>-->
 			</div>
-			<button type="submit" class="btn btn-primary">Save data</button>
+			<button type="submit" class="btn btn-success">Save data</button>
 		</form>
 
 		<form id="passwordChange">
@@ -31,7 +31,7 @@
 					<input type="password" class="form-control" id="inputPassword3" name="pd_pass_new_rec" placeholder="Repeat new password" autocomplete="off">
 				</div>
 			</div>
-			<button type="submit" class="btn btn-primary">Change password</button>
+			<button type="submit" class="btn btn-success">Change password</button>
 		</form>
 		<div class="alert alert-danger" role="alert"></div>
 	</div>
